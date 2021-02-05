@@ -3,9 +3,10 @@ import { atom, useAtom } from "jotai";
 import Layout from "../Layout/Layout";
 
 // Create your atoms and derivatives
-const textAtom = atom("type");
+const textAtom = atom("hello ");
 const uppercaseAtom = atom((get) => get(textAtom).toUpperCase());
 const textLengthAtom = atom((get) => get(textAtom).length);
+const paintingAtom = atom((get) => get(textAtom).toLowerCase().includes("red"));
 
 // Use them anywhere in your app
 const Input = () => {
@@ -39,6 +40,19 @@ const TextLength = () => {
   );
 };
 
+const Painting = () => {
+  const [painting] = useAtom(paintingAtom);
+  const classes = painting
+    ? "border rounded-md p-4 bg-red-600 text-green-100"
+    : "border rounded-md p-4 bg-blue-800 text-green-100";
+  console.log(painting);
+  return (
+    <div className={classes}>
+      type <b>red</b> on textfield
+    </div>
+  );
+};
+
 // Wrap your components in the Jotai provider
 export default function InputField() {
   return (
@@ -48,6 +62,7 @@ export default function InputField() {
         <div class="w-1/2 grid grid-cols-1 gap-4 p-4">
           <Uppercase />
           <TextLength />
+          <Painting />
         </div>
       </div>
     </Layout>
